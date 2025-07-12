@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BugHerd Test</title>
+
+  <!-- Optional: Log that the page was reached -->
+  <script>
+    fetch("https://logger.bugbot1011.org/page_loaded", {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify({ loaded: true, url: location.href }),
+    });
+  </script>
+
+  <!-- Load the BugHerd script with the target API key -->
+  <script src="https://www.bugherd.com/sidebarv2.js?apikey=koaefxpj2nc5byf4a8imza"></script>
+</head>
+<body>
+  <h1>BugHerd Test Page</h1>
+
+  <!-- Notify your logger if BugHerd initialized -->
+  <script>
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        if (window.BugHerd) {
+          fetch("https://logger.bugbot1011.org/bugherd_fired", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({ fired: true }),
+          });
+        } else {
+          fetch("https://logger.bugbot1011.org/bugherd_not_fired", {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify({ fired: false }),
+          });
+        }
+      }, 3000); // wait 3s to ensure scripts have time to load
+    });
+  </script>
+</body>
+</html>
+
